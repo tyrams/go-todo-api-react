@@ -62,6 +62,7 @@ func main() {
 	app.Post("api/todos", createTodo)
 	app.Patch("api/todos/:id", updateTodo)
 	app.Delete("api/todos/:id", deleteTodo)
+	app.Get("api/health", getHealth)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -73,6 +74,10 @@ func main() {
 	}
 
 	log.Fatal(app.Listen("0.0.0.0:" + port))
+}
+
+func getHealth(c *fiber.Ctx) error {
+	return c.Status(200).JSON(fiber.Map{"success": "App is healthy"})
 }
 
 func getTodos(c *fiber.Ctx) error {
